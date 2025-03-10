@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using static UnityEditor.Progress;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+using UnityEngine.SceneManagement;
 
-public class UIManager :  Singleton<UIManager>
+
+public class UIManager :  MonoBehaviour
 {
     [SerializeField] private TMP_Text resultText;
     [SerializeField] private GameObject resultPopup;
@@ -27,7 +27,7 @@ public class UIManager :  Singleton<UIManager>
     private void OnDisable()
     {
         GameManager.OnGameOver -= ShowResult;
-        PlayerController.OnPlayerPlayedTurn += UpdateUI;
+        PlayerController.OnPlayerPlayedTurn -= UpdateUI;
         AIController.OnBotPlayedTurn -= UpdateBotUI;
     }
 
@@ -61,5 +61,6 @@ public class UIManager :  Singleton<UIManager>
         resultPopup.SetActive(true);
         resultText.text = obj;
     }
+   
 
 }

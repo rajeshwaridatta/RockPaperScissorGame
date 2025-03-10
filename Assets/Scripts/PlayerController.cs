@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IPlayer
+public class PlayerController : MonoBehaviour
 {
     private PlayItem selectedItem;
     private Dictionary<string, PlayItem> itemDictionary;
@@ -15,14 +15,9 @@ public class PlayerController : MonoBehaviour, IPlayer
         itemDictionary = new Dictionary<string, PlayItem>();
       
     }
-    public PlayItem ChooseItem()
-    {
-        return selectedItem;
-    }
-   
     public void OnChooseSelection(string itemName )
     {
-        List<PlayItem> items = GameManager.Instance.gameRules.items;
+        List<PlayItem> items = GameManager.Instance.items;
         foreach (var item in items)
         {
             itemDictionary[item.type.ToString()] = item;

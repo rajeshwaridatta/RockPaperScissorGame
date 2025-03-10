@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] public List<Sprite> itemSpriteList;
-    public GameRules gameRules;
+    [SerializeField] private List<Sprite> itemSpriteList;
+    public List<PlayItem> items { get; private set; }
+
     public static event Action<string> OnGameOver;
+
     private void Start()
     {
-        gameRules = new GameRules();
+      
         InitializeItems();
     }
     private void OnEnable() => AIController.OnBotPlayedTurn += CheckGame;
@@ -21,27 +23,17 @@ public class GameManager : Singleton<GameManager>
         Rock rock = new Rock(itemSpriteList[0]);
         Paper paper = new Paper(itemSpriteList[1]);
         Scissor scissor = new Scissor(itemSpriteList[2]);
-
-        rock.AddBehaviour(scissor, ItemRelationshipType.Pass);
-        rock.AddBehaviour(paper, ItemRelationshipType.Fail);
-
-
-        paper.AddBehaviour(scissor, ItemRelationshipType.Fail);
-        paper.AddBehaviour(paper, ItemRelationshipType.Pass);
+        Lizard lizard = new Lizard(itemSpriteList[3]);
+        Spock spock = new Spock(itemSpriteList[4]);
 
 
-        scissor.AddBehaviour(paper, ItemRelationshipType.Pass);
-        scissor.AddBehaviour(rock, ItemRelationshipType.Fail);
-
-        gameRules.AddItem(rock);
-        gameRules.AddItem(paper);
-        gameRules.AddItem(scissor);
+       items = new List<PlayItem> { rock, paper, scissor, lizard, spock };
 
     }
     public void CheckGame(PlayItem playerInput, PlayItem botInput)
     {
         ItemRelationshipType result = playerInput.CompareTo(botInput);
-        string message = result == ItemRelationshipType.Pass ? "Player Wins!" : result == ItemRelationshipType.Fail  ? "Bot Wins!" : "It's a Tie!";
+        string message = result == ItemRelationshipType.Win ? "Player Wins!" : result == ItemRelationshipType.Lose ? "Bot Wins!" : "It's a Tie!";
         OnGameOver?.Invoke(message);
     }
 }

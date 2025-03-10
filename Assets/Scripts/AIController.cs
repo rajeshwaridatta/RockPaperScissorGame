@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AIController : MonoBehaviour,IPlayer
+public class AIController : MonoBehaviour
 {
     public static event Action<PlayItem, PlayItem> OnBotPlayedTurn;
-    public PlayItem ChooseItem()
-    {
-        throw new System.NotImplementedException();
-    }
+   
 
     private void OnEnable() => PlayerController.OnPlayerPlayedTurn += PlayAITurn;
     private void OnDisable() => PlayerController.OnPlayerPlayedTurn -= PlayAITurn;
+
+    // Custom testing. set to false for production.
+    private readonly bool fixed_test_input = false;
+    private readonly int fixed_test_index = 4;
 
     private void PlayAITurn(PlayItem playerInput)
     {
@@ -23,8 +24,8 @@ public class AIController : MonoBehaviour,IPlayer
     private IEnumerator IPlayAITurn(PlayItem playerInput)
     {
         yield return new WaitForSeconds(0.5f);
-        List<PlayItem> items = GameManager.Instance.gameRules.items;
-        PlayItem botInput = items[UnityEngine.Random.Range(0, items.Count)];
+        List<PlayItem> items = GameManager.Instance.items;
+        PlayItem botInput = items[fixed_test_input ? fixed_test_index : UnityEngine.Random.Range(0, items.Count)];
         OnBotPlayedTurn.Invoke(playerInput, botInput);
 
     }
