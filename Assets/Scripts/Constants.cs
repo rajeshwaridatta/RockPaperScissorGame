@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayer 
+public static class Constants 
 {
-    public PlayItem ChooseItem();
+    public const string GameSceneName = "GameScene";
 }
