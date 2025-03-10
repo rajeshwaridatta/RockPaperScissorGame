@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using static UnityEditor.Progress;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class UIManager :  Singleton<UIManager>
 {
@@ -32,17 +33,31 @@ public class UIManager :  Singleton<UIManager>
 
     private void UpdateBotUI(PlayItem playerItem, PlayItem botItem)
     {
+        StartCoroutine(IUpdateBotUI(botItem));
+    }
+    private IEnumerator IUpdateBotUI(PlayItem botItem)
+    {
+        yield return new WaitForSeconds(0.5f);
         botSelection.sprite = botItem.itemSprite;
     }
 
 
     private void UpdateUI(PlayItem item)
     {
+        StartCoroutine(IUpdatePlayerUI(item));
+    }
+    private IEnumerator IUpdatePlayerUI(PlayItem item)
+    {
+        yield return new WaitForSeconds(0.5f);
         playerSelection.sprite = item.itemSprite;
     }
-
     private void ShowResult(string obj)
     {
+        StartCoroutine(ShowResultUI(obj));
+    }
+    private IEnumerator ShowResultUI(string obj)
+    {
+        yield return new WaitForSeconds(1.5f);
         resultPopup.SetActive(true);
         resultText.text = obj;
     }
