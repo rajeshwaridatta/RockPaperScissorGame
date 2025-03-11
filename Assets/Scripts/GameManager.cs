@@ -3,20 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     [SerializeField] private List<Sprite> itemSpriteList;
+    private Result gameResult;
     public List<PlayItem> items { get; private set; }
 
-    public static event Action<string> OnGameOver;
+    public static event Action<Result> OnGameOver;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
       
         InitializeItems();
     }
-    private void OnEnable() => AIController.OnBotPlayedTurn += CheckGame;
-    private void OnDisable() => AIController.OnBotPlayedTurn -= CheckGame;
+    private void OnEnable()
+    {
+        AIController.OnBotPlayedTurn += CheckGame;
+        Timer.OnTimerOver += GameOver;
+    }
+    private void OnDisable()
+    {
+        AIController.OnBotPlayedTurn -= CheckGame;
+        Timer.OnTimerOver -= GameOver;
+    }
 
     private void InitializeItems()
     {
@@ -33,7 +47,11 @@ public class GameManager : Singleton<GameManager>
     public void CheckGame(PlayItem playerInput, PlayItem botInput)
     {
         ItemRelationshipType result = playerInput.CompareTo(botInput);
-        string message = result == ItemRelationshipType.Win ? "Player Wins!" : result == ItemRelationshipType.Lose ? "Bot Wins!" : "It's a Tie!";
-        OnGameOver?.Invoke(message);
+        gameResult = result == ItemRelationshipType.Win ? Result.Win : result == ItemRelationshipType.Lose ? Result.Lose : Result.Draw;
+        OnGameOver?.Invoke(gameResult);
+    }
+    public void GameOver()
+    {
+        OnGameOver?.Invoke(Result.Lose);
     }
 }
