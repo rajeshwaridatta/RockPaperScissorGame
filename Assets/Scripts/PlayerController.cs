@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayItem selectedItem;
+    private PlayItem selectedItem =null;
     private Dictionary<string, PlayItem> itemDictionary;
     public static event Action<PlayItem> OnPlayerPlayedTurn;
 
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnChooseSelection(string itemName )
     {
-        List<PlayItem> items = GameManager.Instance.items;
+        List<PlayItem> items = GameManager.instance.items;
         foreach (var item in items)
         {
             itemDictionary[item.type.ToString()] = item;
