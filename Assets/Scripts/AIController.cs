@@ -23,7 +23,7 @@ public class AIController : MonoBehaviour
     }
     private IEnumerator IPlayAITurn(PlayItem playerInput)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         List<PlayItem> items = GameManager.instance.items;
         PlayItem botInput = items[fixed_test_input ? fixed_test_index : UnityEngine.Random.Range(0, items.Count)];
         OnBotPlayedTurn.Invoke(playerInput, botInput);

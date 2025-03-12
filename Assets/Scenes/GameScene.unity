@@ -3019,6 +3019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfa36724c0d3a34e91f83de7e53f402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameRule: {fileID: 11400000, guid: c4e83dc76b2d3fa42bc8aae23ff9a985, type: 2}
   itemSpriteList:
   - {fileID: 228003666, guid: 791990a7ed87abb4a97382aaf3b409bf, type: 3}
   - {fileID: 944707307, guid: 791990a7ed87abb4a97382aaf3b409bf, type: 3}

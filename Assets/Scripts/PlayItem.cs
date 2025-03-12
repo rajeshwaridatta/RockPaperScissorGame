@@ -20,7 +20,8 @@ public enum ItemRelationshipType
 }
 public class PlayItem : IComparable<PlayItem>
 {
-    protected List<Type> selfVictoryItems;
+    public static GameRule GameRuleData { get; set; }
+    protected List<PlayItemType> beatsOverItems;
     public PlayItemType type { get; private set; }
     public Sprite itemSprite { get; private set; }
    
@@ -29,17 +30,39 @@ public class PlayItem : IComparable<PlayItem>
     {
         this.type = type;
         this.itemSprite = _itemSprite;
+        beatsOverItems = FetchBeatsOverTypes();
     }
-   
+
+
+    private List<PlayItemType> FetchBeatsOverTypes()
+    {
+        List<PlayItemType> beatTypes = new List<PlayItemType>();
+
+        if (GameRuleData == null)
+        {
+            Debug.LogError("GameRuleData is not set in PlayItem!");
+            return beatTypes;
+        }
+
+        // Find the rule matching this PlayItemType
+        GameRule.Rule rule = GameRuleData.rules.Find(r => r.item == this.type);
+        if (rule == null) return beatTypes;
+
+        //Convert PlayItemType to actual class types
+       
+        return rule.beatsOver;
+    }
+
+
 
     public ItemRelationshipType CompareTo(PlayItem other)
     {
-        if (this.GetType() == other.GetType()) 
+        if (this.type == other.type) 
             return ItemRelationshipType.Draw;
-        bool exist = selfVictoryItems.Any<Type>(itemType => itemType == other.GetType());
+        bool exist = beatsOverItems.Any<PlayItemType>(itemType => itemType == other.type);
         Debug.Log(" exist.. " + exist);
-        Debug.Log("selfVictoryItems size: " + selfVictoryItems.Count);
-        foreach(Type t in selfVictoryItems)
+        Debug.Log("selfVictoryItems size: " + beatsOverItems.Count);
+        foreach(PlayItemType t in beatsOverItems)
             Debug.Log(" items "+ t.ToString());
         
         return exist? ItemRelationshipType.Win : ItemRelationshipType.Lose;
@@ -49,34 +72,34 @@ public class Rock : PlayItem
 {
     public Rock(Sprite sprite) : base(PlayItemType.Rock, sprite) 
     { 
-        selfVictoryItems = new List<Type> { typeof(Lizard), typeof(Scissor) }; 
+        //beatsOverItems = new List<Type> { typeof(Lizard), typeof(Scissor) }; 
     }
 }
 public class Paper : PlayItem
 {
     public Paper(Sprite sprite) : base(PlayItemType.Paper, sprite) 
     { 
-        selfVictoryItems = new List<Type> { typeof(Rock), typeof(Spock) }; 
+        //beatsOverItems = new List<Type> { typeof(Rock), typeof(Spock) }; 
     }
 }
 public class Scissor : PlayItem
 {
     public Scissor(Sprite sprite) : base(PlayItemType.Scissor, sprite) 
     {
-        selfVictoryItems = new List<Type> { typeof(Paper), typeof(Lizard) }; 
+       // beatsOverItems = new List<Type> { typeof(Paper), typeof(Lizard) }; 
     } 
 }
 public class Lizard : PlayItem
 {
     public Lizard(Sprite sprite) : base(PlayItemType.Lizard, sprite) 
     { 
-        selfVictoryItems = new List<Type> { typeof(Paper), typeof(Spock) };
+       // beatsOverItems = new List<Type> { typeof(Paper), typeof(Spock) };
     }
 }
 public class Spock : PlayItem
 {
     public Spock(Sprite sprite) : base(PlayItemType.Spock, sprite) 
     {
-        selfVictoryItems = new List<Type> { typeof(Rock), typeof(Scissor) };
+        //beatsOverItems = new List<Type> { typeof(Rock), typeof(Scissor) };
     }
 }
