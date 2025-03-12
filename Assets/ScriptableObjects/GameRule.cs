@@ -10,8 +10,8 @@ public class GameRule : ScriptableObject
     [System.Serializable]
     public class Rule
     {
-        public PlayItemType item;         // E.g., Rock
-        public List<PlayItemType> beatsOver;  // E.g., Rock beats Scissors
+        public PlayItemType item;        
+        public List<PlayItemType> beatsOver;
     }
     public List<Rule> rules = new List<Rule>();
    

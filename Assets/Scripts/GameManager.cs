@@ -46,14 +46,27 @@ public class GameManager : MonoBehaviour
        items = new List<PlayItem> { rock, paper, scissor, lizard, spock };
 
     }
-    public void CheckGame(PlayItem playerInput, PlayItem botInput)
+    private void CheckGame(PlayItem playerInput, PlayItem botInput)
     {
         ItemRelationshipType result = playerInput.CompareTo(botInput);
         gameResult = result == ItemRelationshipType.Win ? Result.Win : result == ItemRelationshipType.Lose ? Result.Lose : Result.Draw;
+        UpdateScore(gameResult);
         OnGameOver?.Invoke(gameResult);
     }
-    public void GameOver()
+    private void GameOver()
     {
         OnGameOver?.Invoke(Result.Lose);
     }
+    private void UpdateScore(Result result)
+    {
+        switch(result)
+        {
+            case Result.Win: PlayerScoreManager.Instance.AddScore(); 
+            break;
+            case Result.Lose:
+            PlayerScoreManager.Instance.ResetScore();
+            break;
+        }
+    }
+
 }
