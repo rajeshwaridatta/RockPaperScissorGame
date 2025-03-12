@@ -14,11 +14,13 @@ public class MenuScreen : MonoBehaviour
             play.onClick.RemoveAllListeners(); 
             play.onClick.AddListener(SceneController.Instance.ReloadGameScene);
         }
-        ShowScore();
+       
     }
-    private void ShowScore()
+    private void OnEnable() => PlayerScoreManager.OnScoreUpdated += ShowScore;
+    private void OnDisable() => PlayerScoreManager.OnScoreUpdated -= ShowScore;
+    private void ShowScore(int score)
     {
-        scoreText.text = PlayerScoreManager.Instance.GetScore().ToString();
+        scoreText.text = score.ToString();
     }
 
 }

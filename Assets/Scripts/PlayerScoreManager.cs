@@ -15,6 +15,7 @@ public class PlayerScoreManager : Singleton<PlayerScoreManager>, IScoreManager
     private void LoadScore()
     {
         currentScore = PlayerPrefs.GetInt(ScoreKey, 0);
+        Debug.Log("current "+ currentScore);
         OnScoreUpdated?.Invoke(currentScore);
     }
     private void SaveScore()
