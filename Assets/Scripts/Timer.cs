@@ -45,7 +45,7 @@ public class Timer : MonoBehaviour
             else
             {
                 float progress = currentTime / timeInSeconds;
-                OnTimerUpdated.Invoke(timeInSeconds - currentTime);
+                OnTimerUpdated.Invoke(progress);
             }
         }
         

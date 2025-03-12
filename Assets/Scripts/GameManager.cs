@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [SerializeField] private GameRule gameRule;
     [SerializeField] private List<Sprite> itemSpriteList;
     private Result gameResult;
     public List<PlayItem> items { get; private set; }
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeItems()
     {
+        PlayItem.GameRuleData = gameRule;
         Rock rock = new Rock(itemSpriteList[0]);
         Paper paper = new Paper(itemSpriteList[1]);
         Scissor scissor = new Scissor(itemSpriteList[2]);
