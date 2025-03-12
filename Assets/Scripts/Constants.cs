@@ -15,4 +15,5 @@ public static class Constants
     public const string WinMessage = "Player wins!";
     public const string LoseMessage = "Player loses! ";
     public const string TieMessage = "Its a tie";
+    public const string Playerpref_ScoreKey = "PlayerScore";
 }

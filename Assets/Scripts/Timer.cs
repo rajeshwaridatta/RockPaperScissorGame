@@ -21,13 +21,11 @@ public class Timer : MonoBehaviour
     private void OnEnable()
     {
         PlayerController.OnPlayerPlayedTurn += UpdateTimer;
-       
     }
 
     private void OnDisable()
     {
         PlayerController.OnPlayerPlayedTurn -= UpdateTimer;
-       
     }
     private void Update()
     {
@@ -48,7 +46,6 @@ public class Timer : MonoBehaviour
                 OnTimerUpdated.Invoke(progress);
             }
         }
-        
     }
     private void UpdateTimer(PlayItem item)
     {
